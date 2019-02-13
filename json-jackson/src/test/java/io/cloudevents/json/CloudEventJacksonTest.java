@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.cloudevents;
+package io.cloudevents.json;
 
-import io.cloudevents.json.Json;
+import io.cloudevents.CloudEvent;
+import io.cloudevents.SpecVersion;
+import io.cloudevents.json.jackson.Json;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.net.URI;
@@ -30,27 +33,27 @@ public class CloudEventJacksonTest {
     @Test
     public void testParseAzure01JSON() {
         CloudEvent<Map<String, ?>> ce = Json.fromInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("01_azure.json"));
-        assertThat(ce.getSpecVersion()).isEqualTo(SpecVersion.V_01.toString());
+        Assertions.assertThat(ce.getSpecVersion()).isEqualTo(SpecVersion.V_01.toString());
         assertAzureCloudEvent(ce);
     }
 
     @Test
     public void testParseAzure02JSON() {
         CloudEvent<Map<String, ?>> ce = Json.fromInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("02_azure.json"));
-        assertThat(ce.getSpecVersion()).isEqualTo(SpecVersion.V_02.toString());
+        Assertions.assertThat(ce.getSpecVersion()).isEqualTo(SpecVersion.V_02.toString());
         assertAzureCloudEvent(ce);
     }
 
     private void assertAzureCloudEvent(CloudEvent<Map<String, ?>> ce) {
-        assertThat(ce.getType()).isEqualTo("Microsoft.Storage.BlobCreated");
+        Assertions.assertThat(ce.getType()).isEqualTo("Microsoft.Storage.BlobCreated");
 
         ce.getData().ifPresent(data -> {
-            assertThat(Map.class).isAssignableFrom(data.getClass());
-            assertThat(data.get("clientRequestId")).isEqualTo("a23b4aba-2755-4107-8020-8ba6c54b203d");
-            assertThat(Map.class).isAssignableFrom(data.get("storageDiagnostics").getClass());
+            Assertions.assertThat(Map.class).isAssignableFrom(data.getClass());
+            Assertions.assertThat(data.get("clientRequestId")).isEqualTo("a23b4aba-2755-4107-8020-8ba6c54b203d");
+            Assertions.assertThat(Map.class).isAssignableFrom(data.get("storageDiagnostics").getClass());
             Map<String, String> storageDiagnostics = (Map<String, String>) data.get("storageDiagnostics");
-            assertThat(storageDiagnostics).containsOnlyKeys("batchId");
-            assertThat(storageDiagnostics.get("batchId")).isEqualTo("ba4fb664-f289-4742-8067-6c859411b066");
+            Assertions.assertThat(storageDiagnostics).containsOnlyKeys("batchId");
+            Assertions.assertThat(storageDiagnostics.get("batchId")).isEqualTo("ba4fb664-f289-4742-8067-6c859411b066");
         });
     }
 
@@ -67,10 +70,10 @@ public class CloudEventJacksonTest {
     }
 
     private void assertAmazonCloudEvent(CloudEvent ce) {
-        assertThat(ce.getType()).isEqualTo("aws.s3.object.created");
-        assertThat(ce.getId()).isEqualTo("C234-1234-1234");
-        assertThat(ce.getData().isPresent());
-        assertThat(ce.getSource().equals(URI.create("https://serverless.com")));
-        assertThat(ce.getTime().get()).isEqualTo(ZonedDateTime.parse("2018-04-26T14:48:09.769Z", ISO_ZONED_DATE_TIME));
+        Assertions.assertThat(ce.getType()).isEqualTo("aws.s3.object.created");
+        Assertions.assertThat(ce.getId()).isEqualTo("C234-1234-1234");
+        Assertions.assertThat(ce.getData().isPresent());
+        Assertions.assertThat(ce.getSource().equals(URI.create("https://serverless.com")));
+        Assertions.assertThat(ce.getTime().get()).isEqualTo(ZonedDateTime.parse("2018-04-26T14:48:09.769Z", ISO_ZONED_DATE_TIME));
     }
 }

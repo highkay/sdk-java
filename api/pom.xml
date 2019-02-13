@@ -14,54 +14,42 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>io.cloudevents</groupId>
-        <artifactId>cloudevents-parent</artifactId>
-        <version>0.2.2-SNAPSHOT</version>
-    </parent>
-
+  <parent>
     <groupId>io.cloudevents</groupId>
-    <artifactId>cloudevents-api</artifactId>
-    <name>CloudEvents - API</name>
-    <version>0.2.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <artifactId>cloudevents-parent</artifactId>
+    <version>0.2.3-SNAPSHOT</version>
+  </parent>
 
-    <dependencies>
+  <groupId>io.cloudevents</groupId>
+  <artifactId>cloudevents-api</artifactId>
+  <name>CloudEvents - API</name>
+  <packaging>jar</packaging>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
+  <properties>
+    <jackson.version>2.9.6</jackson.version>
+  </properties>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.10.0</version>
+      <scope>test</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.10.0</version>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
-
-    <properties>
-        <jackson.version>2.9.6</jackson.version>
-    </properties>
+  </dependencies>
 
 </project>
 

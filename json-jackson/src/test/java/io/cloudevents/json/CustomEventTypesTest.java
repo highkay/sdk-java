@@ -18,6 +18,7 @@ package io.cloudevents.json;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.CloudEventBuilder;
+import io.cloudevents.json.jackson.Json;
 import io.cloudevents.json.types.GlusterVolumeClaim;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ import java.net.URI;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.cloudevents.json.Json.MAPPER;
+import static io.cloudevents.json.jackson.Json.MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
 public class CustomEventTypesTest {
 
@@ -44,13 +45,13 @@ public class CustomEventTypesTest {
 
         // when
         final String httpSerializedPayload = MAPPER.writeValueAsString(storageCloudEventWrapper);
-        assertThat(httpSerializedPayload).contains("PersistentVolumeClaim");
+        Assertions.assertThat(httpSerializedPayload).contains("PersistentVolumeClaim");
         //PARSE into real object, on the other side
         final CloudEvent<GlusterVolumeClaim> event = Json.decodeValue(httpSerializedPayload, new TypeReference<CloudEvent<GlusterVolumeClaim>>() {});
 
         // then
-        assertThat(event.getData().get()).isNotNull();
-        assertThat(event.getData().get().getSpec().getCapacity().get("storage")).isEqualTo("2Gi");
-        assertThat(event.getData().get().getSpec().getAccessModes()).containsExactly("ReadWriteMany");
+        Assertions.assertThat(event.getData().get()).isNotNull();
+        Assertions.assertThat(event.getData().get().getSpec().getCapacity().get("storage")).isEqualTo("2Gi");
+        Assertions.assertThat(event.getData().get().getSpec().getAccessModes()).containsExactly("ReadWriteMany");
     }
 }
